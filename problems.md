@@ -109,5 +109,53 @@ print Parent.x, Child1.x, Child2.x
 3 2 3
 ```
 
+## Test
+
+```
+How would you unit-test the following code?
+
+async def logs(cont, name):
+    conn = aiohttp.UnixConnector(path="/var/run/docker.sock")
+    async with aiohttp.ClientSession(connector=conn) as session:
+        async with session.get(f"http://xx/containers/{cont}/logs?follow=1&stdout=1") as resp:
+            async for line in resp.content:
+                print(name, line)
+
+
+# A good answer would suggest a specific async mock library and async test case approach, including an ephemeral event loop that’s guaranteed to terminate (i.e. with a max number of steps before timeout.)
+
+# A great answer would point out that synchronisation problems are fundamentally the same in synchronous and asynchronous code, the difference being preemption granularity.
+
+# A beautiful answer would take into account that the above code only has one flow (easy) compared to some other code where flows are mixed (e.g. merging two streams into one, sorting, etc). For example, consider following upgrade to the given code:
+
+# Here, any of the async statements could have a side-effect of changing the global keep_running.
+
+keep_running = True
+
+async def logs(cont, name):
+    conn = aiohttp.UnixConnector(path="/var/run/docker.sock")
+    async with aiohttp.ClientSession(connector=conn) as session:
+        async with session.get(f"http://xx/containers/{cont}/logs?follow=1&stdout=1") as resp:
+            async for line in resp.content:
+                if not keep_running:
+                    break
+                print(name, line)
+                
+
+```
+
+
+## Mixin
+
+```
+Given a list of N numbers, use a single list comprehension to produce a new list that only contains those values that are:
+(a) even numbers, and
+(b) from elements in the original list that had even indices
+
+For example, if list[2] contains a value that is even, that value should be included in the new list, since it is also at an even index (i.e., 2) in the original list. However, if list[3] contains an even number, that number should not be included in the new list since it is at an odd index (i.e., 3) in the original list.
+
+ans:
+[x for x in list[::2] if x%2 == 0]
+```
 
 
