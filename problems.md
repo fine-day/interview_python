@@ -498,4 +498,4 @@ cProfile.run('f3(lIn)')
 ## Refence
 
 * [15 Essential Python Interview Questions](https://www.codementor.io/sheena/essential-python-interview-questions-du107ozr6)
-
+* [11 Essential Python Interview Questions](https://www.toptal.com/python/interview-questions)
